@@ -1,0 +1,217 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Daftar Karyawan</title>
+    <style>
+        .font-univ {
+            font-family: 'Eras UAJY';
+        }
+
+        .header {
+            text-align: left;
+            font-family: Cambria;
+            border-bottom: double;
+            font-size: 20px;
+        }
+
+        .header-cetak {
+            text-align: center;
+            font-family: Cambria;
+            border-bottom: double;
+        }
+
+        .body-sertif {
+            text-align: center;
+        }
+
+        .p-keterangan {
+            font-family: 'Segoe Print';
+            font-size: 24px;
+        }
+
+        .p-nama {
+            font-size: 40px;
+            /*font-weight: bold;*/
+            font-family: 'Tahoma';
+        }
+
+        .p-ttd {
+            font-family: 'Segoe Print';
+            font-size: 26px;
+        }
+
+        .divlogo {
+            /*display: inline-block;
+                    vertical-align: top;
+                    height: 120px;*/
+        }
+
+        .divhead {
+            text-align: center;
+            padding-top: 125px;
+        }
+
+        .divttd {
+            margin-top: 50px;
+        }
+
+        .classbody {
+            /*background-color: burlywood;*/
+        }
+
+        .divbody {
+            /* padding-top: 100px;
+                    padding-bottom: 115px;
+                    margin-left: 135px;
+                    margin-right: 135px;*/
+        }
+
+        .imgttd {
+            height: 100px;
+            float: left;
+        }
+
+        .table-logo {
+            width: 100%;
+        }
+
+        .tdlogo1 {
+            width: 50%;
+        }
+
+        .tdlogo2 {
+            width: 50%;
+        }
+
+        .imglogo {
+            height: 250px;
+        }
+
+        .div-qr {
+        }
+
+        .imgqrcode {
+            height: 100px;
+            float: left;
+        }
+
+        .pcode {
+            font-family: 'Tahoma';
+            padding-top: 5px;
+            font-size: 20px;
+            padding-right: 5px;
+            float: right;
+        }
+
+        .p-judul {
+            font-size: 26px;
+            font-family: 'Tahoma';
+        }
+
+        .p-tanggal {
+            font-family: 'Segoe Print';
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .p {
+            font-family: 'Tahoma';
+            font-size: 20px;
+        }
+
+        th, td, table {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        tbody.noBorder th, tbody.noBorder td {
+            border: 0;
+        }
+    </style>
+</head>
+<body class="classbody">
+    <div class="header">
+        @if (Model.data != null)
+        {
+            <table style="width:70%; border:none">
+                <tbody class="noBorder">
+                    <tr>
+                        <th rowspan="6"><img src="/Assets/dist/img/uajy.png" alt="" height=110 width=90 /></th>
+                        <th colspan="2" style="font-size:24px">Rincian Honorarium</th>
+                    </tr>
+                    <tr>
+                        <th>Bulan</th>
+                        <td>: @Model.data.bulan</td>
+                    </tr>
+                    <tr>
+                        <th>Unit</th>
+                        <td>: @Model.data.nama_unit</td>
+                    </tr>
+                    <tr>
+                        <th>NPP</th>
+                        <td>: @Model.data.npp</td>
+                    </tr>
+                    <tr>
+                        <th>Nama</th>
+                        <td>: @Model.data.nama</td>
+                    </tr>
+                    <tr>
+                        <th>No. Tabungan</th>
+                        <td>: @Model.data.no_tabungan</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    </div>
+    <div class="divbody">
+
+        @if (Model.data != null)
+        {
+            <table id="tabel" style="width:100%">
+                <p>
+                    Dengan ini kami beritahukan bahwa Bagian Operasional Kantor Keuangan telah melakukan transfer honorarium, sesuai
+                    penugasan kegiatan yang telah ditunaikan Bapak/Ibu/Saudara sbb:
+                </p>
+                <thead id="tabelHead">
+                    <tr>
+                        <th>No</th>
+                        <th style="width: 80%;">Keterangan</th>
+                        <th style="width: 20%;">Jumlah</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.honor)
+                    {
+                        <tr id="tbody">
+                            <td style="text-align:center">@item.num</td>
+                            <td>@item.keterangan</td>
+                            <td style="text-align:right;padding-right:20px">@item.jumlah</td>
+                        </tr>
+
+                    }
+                    <tr id="tbody">
+                        <td></td>
+                        <td style="text-align:right;padding-right:20px"><strong>Penerimaan Kotor</strong></td>
+                        <td style="text-align:right;padding-right:20px">@Model.data.penerimaan_kotor</td>
+                    </tr>
+                    <tr id="tbody">
+                        <td></td>
+                        <td style="text-align:right;padding-right:20px"><strong>Pajak</strong></td>
+                        <td style="text-align:right;padding-right:20px">@Model.data.pajak</td>
+                    </tr>
+                    <tr id="tbody">
+                        <td></td>
+                        <td style="text-align:right;padding-right:20px"><strong>Penerimaan Bersih</strong></td>
+                        <td style="text-align:right;padding-right:20px">@Model.data.penerimaan_bersih</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    </div>
+</body>
+</html>

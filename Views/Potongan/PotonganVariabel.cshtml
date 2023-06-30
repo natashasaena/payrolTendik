@@ -1,0 +1,271 @@
+﻿@{
+    ViewData["Title"] = "Potongan Variabel";
+}
+@*@model List<payroll.Models.PotonganModel>*@
+@section styles{
+    <style>
+        div.dataTables_wrapper div.dataTables_length, div.dataTables_wrapper div.dataTables_info {
+            text-align: left;
+        }
+
+        table.table-bordered thead > tr > th {
+            border: 1px solid;
+            background-color: #8fa0c7;
+        }
+
+        table.table-bordered tbody > tr > td {
+            border: 1px solid;
+            border-top: 0px;
+        }
+
+        .dataTables_length select {
+            font-size: 15px;
+        }
+
+        table.table-bordered tbody > tr > td, table.table-bordered tbody > tr > td > input {
+            vertical-align: middle;
+            text-align: center;
+            align-content: center;
+            align-items: center;
+        }
+
+    </style>
+}
+<div class="pt-4">
+    <div class="card card-light">
+        <div class="card-header">
+            <div class="d-flex align-items-left justify-content-between mb-0">
+                <h5 class="mb-0 font-weight-bold">Potongan Variabel</h5>
+                <form id="my_form" asp-action="ExportPotonganVariabel" asp-controller="Potongan">
+                    <input type="text" id="temp_IdUnit" name="id_unit" hidden>
+                    <input type="text" id="temp_IdTahun" name="id_tahun" hidden>
+                    <input type="text" id="temp_IdBulan" name="id_bulan" hidden>
+                    <input type="text" id="temp_IdKomponen" name="id_komponen_gaji" hidden>
+                    <input type="text" id="temp_IdFungsional" name="id_fungsional" hidden>
+                    <a class="text-primary" onclick="document.getElementById('my_form').submit();">Download Template</a>
+                </form>
+
+            </div>
+        </div>
+          
+        <div class="card-body">
+            <div class="form-group">
+                <label>Tahun</label>
+                <select class="form-control" name="id_tahun" id="id_tahun" style="width: 100%;" onclick="run()">
+                    <option value="">-- Pilih Tahun --</option>
+                    @for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 8; i--)
+                {
+                    if (Model.tahun == i)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                    else
+                    {
+                        <option value="@i">@i</option>
+                    }
+                }
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Bulan</label>
+                <select class="form-control" name="id_bulan" id="id_bulan" style="width: 100%;" onclick="run()">
+                    <option value="">-- Pilih Bulan --</option>
+                    @foreach (var kom in Model.bulan)
+                    {
+                        <option value="@kom.id_bulan"> @kom.bulan</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Unit Penempatan</label>
+                <select class="form-control" name="id_unit" id="id_unit" style="width: 100%;" autocomplete="on" onclick="run()">
+                    <option value="">-- Pilih Unit Penempatan --</option>
+                    <option value="0">Semua Unit</option>
+                    @foreach (var unit in Model.unit)
+                    {
+                        <option value="@unit.id_unit"> @unit.nama_unit</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Status fungsional</label>
+                <select class="form-control" name="id_fungsional" id="id_fungsional" style="width: 100%;">
+                    <option value="">-- Pilih Status Fungsional --</option>
+                    @foreach (var status in Model.status_fungsional)
+                    {
+                        <option value="@status.id_fungsional"> @status.status_fungsional</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Nama Potongan</label>
+                <select class="form-control" name="id_komponen_gaji" id="id_komponen_gaji" style="width: 100%;" onclick="run()">
+                    <option value="">-- Pilih Nama Potongan --</option>
+                    @foreach (var potongan in Model.potongan)
+                    {
+                        <option value="@potongan.id_komponen_gaji"> @potongan.komponen_gaji</option>
+                    }
+                </select>
+            </div>
+            <form asp-action="BatchUserUpload" asp-controller="Potongan" method="post" id="create-form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>File</label>
+                    <div class="input-group">
+                        <input type="file" placeholder="Import Your File" id="batchUsers" name="batchUsers" class="form-control">
+                        <span class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Import</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="card-footer text-center" style="background:#fff">
+            <button class="btn btn-primary w-50" type="button" onclick="getData()">Cari</button>
+        </div>
+      
+    </div>
+</div>
+
+<div class="pt-2 pb-4">
+    <div class="bg-light text-center rounded p-4">
+
+        <div class="d-flex align-items-left justify-content-between mb-3">
+            <h5 class="mb-0 font-weight-bold" id="data">Data </h5>
+        </div>
+
+        <form asp-action="SimpanPotonganVariabel" asp-controller="Potongan" method="post">
+            @Html.AntiForgeryToken()
+            <div class="table-responsive">
+                <table id="tabel" class="table text-center align-middle table-bordered table-hover mb-0">
+                    <thead>
+                        <tr class="text-dark">
+                            <th scope="col">NPP</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Nominal</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tabelBody">
+                     
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-danger mt-3 float-right" onclick="updateData()"> Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+
+    <script>
+         $(document).ready(function() {
+            $('#tabel').DataTable({
+
+            });
+
+        });
+        function run() {
+            document.getElementById("temp_IdUnit").value = document.getElementById("id_unit").value;
+            document.getElementById("temp_IdTahun").value = document.getElementById("id_tahun").value;
+            document.getElementById("temp_IdBulan").value = document.getElementById("id_bulan").value;
+            document.getElementById("temp_IdKomponen").value = document.getElementById("id_komponen_gaji").value;
+            document.getElementById("temp_IdFungsional").value = document.getElementById("id_fungsional").value;
+        }    
+    </script>
+    <script>
+        var dataSuplisiInsentif = [];
+        function getData() {
+            var text = $('#id_komponen_gaji').find("option:selected").text();
+            $('#data').text('Data' + text);
+            var tahun = $("#id_tahun").val();
+            var bulan = $("#id_bulan").val();
+            var unit = $("#id_unit").val();
+            var komponen_gaji = $("#id_komponen_gaji").val();
+            var fungsional = $("#id_fungsional").val();           
+            $.ajax({
+                type: "POST",
+                url: "/Potongan/cariPotongan",
+                cache: false,
+                dataType: "json",
+                data: {
+                    "id_tahun": tahun, "id_bulan": bulan, "id_unit": unit, "id_komponen_gaji": komponen_gaji, "id_fungsional": fungsional
+                },
+                success: function(response) {                                  
+                    var str = '';
+                    lastdata = [];
+                    for (var i = 0; i < response.length; i++) {
+                        str += '<tr><td>' + response[i].npp + '</td><td>' + response[i].nama + '</td><input type="hidden"  name="' + response[i].id + '" id="' + response[i].id + '" value="' + response[i].id
+                            + '"/><td><input type="text"  name="' + response[i].nominal + '" id="' + response[i].nominal + '" value="' + response[i].nominal
+                            + '"/></td></tr>';
+                    }
+                    $("#tabel").DataTable().destroy();
+                    $("#tabelBody").html(str);
+                    $("#tabel").DataTable({
+                        //'columnDefs': [{ 'orderable': false, 'targets': 6}],
+                    });
+                },
+                error: function(xhr) {
+                    alert("Telah terjadi kesalahan dengan kode : " + xhr.status + ", silahkan menghubungi admin terkait.");
+                }
+            });
+
+        }
+        function updateData() {
+            var mdl = [];
+            var data1 = [];
+            var data2 = [];
+            $('tr').each(function() {                
+                $('input[type=hidden]', this).each(function() {
+                    if ($(this).val() != null && $(this).val() != "") {                       
+                        data1.push($(this).val());
+                    }
+                });
+                $('input[type=text]', this).each(function() {
+                    if ($(this).val() != null && $(this).val() != "") {                     
+                        data2.push($(this).val());
+                    }
+                });
+
+            });
+
+            for (var i = 0; i < data1.length; i++) {                
+                item = {
+                    "id": data1[i],
+                    "nominal": data2[i],
+                };
+                mdl.push(item);
+            }
+
+            if (mdl.length != 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Potongan/UbahPotongan",
+                    cache: false,
+                    dataType: "json",
+                    data: {
+                        "mdl": mdl
+                    },
+                    success: function(response) {
+                        alert("Data berhasil disimpan.");
+                    },
+                    error: function(xhr) {
+                        alert("Telah terjadi kesalahan dengan kode : " + xhr.status + ", silahkan menghubungi admin terkait.");
+                    }
+                });
+            }
+        }
+
+    </script>
+}
+
+
+
+

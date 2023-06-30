@@ -1,0 +1,280 @@
+﻿@{
+    ViewData["Title"] = "Penerimaan Lain-Lain";
+}
+@section styles{
+    <style>
+        div.dataTables_wrapper div.dataTables_length, div.dataTables_wrapper div.dataTables_info {
+            text-align: left;
+        }
+
+        table.table-bordered thead > tr > th {
+            border: 1px solid;
+            background-color: #8fa0c7;
+        }
+
+        table.table-bordered tbody > tr > td {
+            border: 1px solid;
+            border-top: 0px;
+        }
+
+        .dataTables_length select {
+            font-size: 15px;
+        }
+
+        table.table-bordered tbody > tr > td, table.table-bordered tbody > tr > td > input {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+    </style>
+}
+    <div class="pt-4">
+        <div class="card card-light">
+            <div class="card-header">
+                <h5 class="font-weight-bold mb-0">Penerimaan Lain-Lain</h5>
+            </div>
+
+            <div class="card-body">
+            @if (Model.data == null)
+            {
+                <div class="form-group">
+                    <label>NPP</label>
+                    <div class="row">
+                        <div class="col-8">
+                            <input type="text" placeholder="NPP" name="npp" class="form-control" id="npp" value="">
+                        </div>
+
+                        <div class="col-4">
+                            <form asp-action="PenerimaanLainLain" asp-controller="KomponenVariabel" method="get">
+                                <div class="input-group">
+                                    <input type="text" name="npp" placeholder="NPP" class="form-control">
+                                    <span class="input-group-append">
+                                        <button type="submit" class="btn btn-primary" value="Search">Search</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Tahun</label>
+                    <select class="form-control" name="id_tahun" id="id_tahun" style="width: 100%;">
+                        <option value="">-- Pilih Tahun --</option>
+                        @for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 8; i--)
+                        {
+                            if (Model.tahun == i)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Bulan</label>
+                    <select class="form-control" name="id_bulan" id="id_bulan" style="width: 100%;">
+                        <option value="">-- Pilih Bulan --</option>
+                        @foreach (var kom in Model.bulan)
+                        {
+                            <option value="@kom.id_bulan"> @kom.bulan</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nama </label>
+                    <input type="text" class="form-control" placeholder="Masukkan Nama" value="">
+                </div>
+                <div class="form-group">
+                    <label>Jumlah </label>
+                    <input type="text" class="form-control" placeholder="Masukkan Jumlah">
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi </label>
+                    <input type="text" class="form-control" placeholder="Masukkan Jumlah Pengganti">
+                </div>
+                <div class="card-footer text-center">
+                    <button class="btn btn-primary w-50" type="submit">Simpan</button>
+                </div>
+            }
+            else if (Model.data != null)
+            {
+                <div class="form-group">
+                    <label>NPP</label>
+                    <div class="row">
+                        <div class="col-8">
+                            <input type="text" placeholder="NPP" name="npp" class="form-control" id="npp" value="@Model.data.npp">
+                        </div>
+
+                        <div class="col-4">
+                            <form asp-action="PenerimaanLainLain" asp-controller="KomponenVariabel" method="get">
+                                <div class="input-group">
+                                    <input type="text" name="npp" placeholder="NPP" class="form-control">
+                                    <span class="input-group-append">
+                                        <button type="submit" class="btn btn-primary" value="Search">Search</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+                <form asp-action="TambahPenerimaanLainLain" asp-controller="KomponenVariabel" method="post">
+                    <input type="text" placeholder="NPP" name="npp" class="form-control" id="npp" value="@Model.data.npp" hidden>
+                    <div class="form-group">
+                        <label>Tahun</label>
+                        <select class="form-control" name="id_tahun" id="id_tahun" style="width: 100%;">
+                            <option value="">-- Pilih Tahun --</option>
+                            @for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 8; i--)
+                            {
+                                if (Model.tahun == i)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                                else
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bulan</label>
+                        <select class="form-control" name="id_bulan" id="id_bulan" style="width: 100%;">
+                            <option value="">-- Pilih Bulan --</option>
+                            @foreach (var kom in Model.bulan)
+                            {
+                                <option value="@kom.id_bulan"> @kom.bulan</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama </label>
+                        <input type="text" class="form-control" name="nama" placeholder="Masukkan Nama" value="@Model.data.nama">
+                    </div>
+                    <div class="form-group">
+                        <label>Jumlah </label>
+                        <input type="text" class="form-control" name="jumlah" placeholder="Masukkan Jumlah">
+                    </div>
+                    <div class="form-group">
+                        <label>Deskripsi </label>
+                        <textarea class="form-control" name="deskripsi" placeholder="Deskripsi"></textarea>
+                    </div>
+
+                    <div class="card-footer text-center">
+                        <button class="btn btn-primary w-50" type="submit">Simpan</button>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="pt-2 pb-4">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-left justify-content-between mb-3">
+            <h5 class="mb-0 font-weight-bold">Data Penerimaan Lain-Lain</h5>
+        </div>
+
+        <div class="table-responsive">
+            <table id="tabel" class="table text-center align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col">Bulan-Tahun</th>
+                        <th scope="col">NPP</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">Jumlah</th>
+                        <th scope="col">Deskripsi</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.table)
+                    {
+                        <tr id="paginated-list">
+                            <td>@item.bulan - @item.id_tahun</td>
+                            <td>@item.npp</td>
+                            <td>@item.nama</td>
+                            <td>@item.jumlah</td>
+                            <td>@item.deskripsi</td>
+                            <td> <button type="button" class="btn btn-success btn-sm mb-1 mt-1" style="width:60px" data-toggle="modal" data-target="#detailModal-@(item.id)" id="submit"> Ubah</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@foreach (var item in Model.table)
+{
+    <form asp-action="UbahPenerimaanLainLain" asp-controller="KomponenVariabel" method="post">
+        <div class="modal fade" id="detailModal-@(item.id)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ubah Data</h5>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">
+                                ×
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <!-- Data passed is displayed
+                            in this part of the
+                            modal body -->
+                        <h6 id="modal_body"></h6>
+
+                        <input type="text" class="form-control" name="id" value="@item.id" placeholder="ID" hidden>
+
+                        <div class="form-group">
+                            <label>NPP Karyawan</label>
+                            <input type="text" class="form-control" name="npp" value="@item.npp" placeholder="NPP" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Karyawan</label>
+                            <input type="text" class="form-control" name="nama" value="@item.nama" placeholder="Nama" readonly>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Jumlah</label>
+                            <input type="text" class="form-control" name="jumlah" value="@item.jumlah" placeholder="Jumlah">
+                        </div>
+                        <div class="form-group">
+                            <label>Deskripsi </label>
+                            <textarea class="form-control" id="deskripsi" name="deskripsi" placeholder="Deskripsi">@item.deskripsi</textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-sm w-100">Edit</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+}
+
+@section scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+    <script>
+        $(document).ready(function() {
+            $('#tabel').DataTable({
+
+            });
+        });
+    </script>
+}

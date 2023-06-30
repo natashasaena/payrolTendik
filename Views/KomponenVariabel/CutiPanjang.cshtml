@@ -1,0 +1,278 @@
+﻿@{
+    ViewData["Title"] = "Cuti Panjang";
+}
+@section styles{
+    <style>
+        div.dataTables_wrapper div.dataTables_length, div.dataTables_wrapper div.dataTables_info {
+            text-align: left;
+        }
+
+        table.table-bordered thead > tr > th {
+            border: 1px solid black;
+            background-color: #8fa0c7;
+        }
+
+        table.table-bordered tbody > tr > td {
+            border: 1px solid;
+            border-top: 0px;
+        }
+
+        .dataTables_length select {
+            font-size: 15px;
+        }
+
+        table.table-bordered tbody > tr > td, table.table-bordered tbody > tr > td > input {
+            vertical-align: middle;
+            text-align: center;
+            align-content: center;
+            align-items: center;
+        }
+
+    </style>
+}
+<div class="pt-4">
+    <div class="card card-light">
+        <div class="card-header">
+            <h5 class="font-weight-bold mb-0">Cuti Panjang</h5>
+        </div>
+        @Html.AntiForgeryToken()
+        <form asp-action="TambahCutiPanjang" asp-controller="KomponenVariabel" method="post">
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Tahun</label>
+                    <select class="form-control" name="tahun" id="tahun" style="width: 100%;" required>
+                        <option value="">-- Pilih Tahun --</option>
+                        @for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 8; i--)
+                        {
+                            if (Model.tahun == i)
+                            {
+                                <option selected value="@i">@i</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Bulan</label>
+                    <select class="form-control" name="id_bulan" id="id_bulan" style="width: 100%;" required>
+                        <option value="">-- Pilih Bulan --</option>
+                        @foreach (var kom in Model.bulan)
+                        {
+                            <option value="@kom.id_bulan"> @kom.bulan</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Jumlah Pengganti (Bulan)</label>
+                    <select class="form-control" name="jml_bulan_diganti" id="jml_bulan_diganti" style="width: 100%;" required> 
+                        <option value="">-- Pilih Jumlah Bulan Pengganti --</option>
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            <option value="@i"> @i</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>NPP Karyawan</label>
+                    <input type="text" class="form-control" name="npp" id="npp" placeholder="Masukkan NPP" required>
+                </div>
+                <div class="form-group">
+                    <label>Tanggal Pengajuan</label>
+                    <input type="date" class="form-control" name="tgl_pengajuan" id="tgl_pengajuan" value="@DateTime.Now.ToString("yyyy'-'MM'-'dd")" placeholder="Tanggal Pengajuan">
+                </div>
+                <div class="form-group">
+                    <label>Tanggal Awal Cuti</label>
+                    <input type="date" class="form-control" name="tgl_awal_cuti" id="tgl_awal_cuti" value="@DateTime.Now.ToString("yyyy'-'MM'-'dd")" placeholder="Tanggal Pengajuan">
+                </div>
+                <div class="form-group">
+                    <label>Tanggal Akhir Cuti</label>
+                    <input type="date" class="form-control" name="tgl_akhir_cuti" id="tgl_akhir_cuti" value="@DateTime.Now.ToString("yyyy'-'MM'-'dd")" placeholder="Tanggal Pengajuan">
+                </div>                
+            </div>
+
+            <div class="card-footer text-center">
+                <button class="btn btn-primary w-50" type="submit">Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="pt-2 pb-4">
+    <div class="bg-light text-center rounded p-4">      
+        <div class="d-flex align-items-left justify-content-between mb-3">
+            <h5 class="mb-0 font-weight-bold">Data Cuti Panjang</h5>           
+        </div>
+
+        <div class="table-responsive">
+            <table id="tabel" class="table text-center align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col">NPP</th>
+                        <th scope="col">Tanggal Awal Cuti</th>
+                        <th scope="col">Tanggal Akhir Cuti </th>
+                        <th scope="col">Jumlah Pengganti</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.table)
+                    {
+                        <tr>
+                            <td>@item.npp</td>
+                            <td>@item.tgl_awal_cuti</td>
+                            <td>@item.tgl_akhir_cuti</td>
+                            <td>@item.jml_bulan_diganti</td>
+                            <form asp-action="LockCutiPanjang">
+                            <td>                                  
+                                <button type="button" class="btn btn-success btn-sm mb-1 mt-1" style="width:60px" data-toggle="modal" data-target="#detailModal-@(item.id)" id="submit">Ubah</button>
+                                    @if(item.is_lock == 0)
+                                    {
+                                        <button type="submit" class="btn btn-danger btn-sm mb-1 mt-1" style="width:60px"> Lock</button>
+                                    }
+                                    else
+                                    {
+                                    <button type="submit" class="btn btn-danger btn-sm mb-1 mt-1" style="width:60px" disabled> Lock</button>
+                                    }
+
+                               
+                                <input type="text" value="@item.id" name="id" id="id" class=" custom-checkbox" hidden>
+                                <input type="text" value="@item.is_lock" name="is_lock" id="is_lock" class=" custom-checkbox" hidden>
+                            </td>
+                            </form>                           
+                        </tr>
+                    }
+                </tbody>
+            </table>           
+        </div>
+    </div>
+</div>
+@foreach (var item in Model.table){
+    <form asp-action="UbahCutiPanjang" asp-controller="KomponenVariabel" method="post">
+        <div class="modal fade" id="detailModal-@(item.id)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Cuti Panjang</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">
+                                ×
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">         
+                        <h6 id="modal_body"></h6>
+                        <input type="text" class="form-control" name="id" value="@item.id" placeholder="ID" hidden>
+                        <input type="text" class="form-control" value="@item.is_lock" name="is_lock" id="is_lock" hidden>
+                        <div class="form-group">
+                            <label>NPP Karyawan</label>
+                            <input type="text" class="form-control" name="npp" id="npp-modal" value="@item.npp" placeholder="NPP" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Karyawan</label>
+                            <input type="text" class="form-control" name="nama" id="nama-modal" value="@item.nama" placeholder="Nama" readonly>
+                        </div>
+
+                        <div class="form-group row g-3">
+                            <div class="col-md-6">
+                                <label>Tahun Anggaran</label>                                
+                                <select class="form-control" name="tahun" id="tahun" style="width: 100%;">
+                                    <option value="@item.tahun" hidden>@item.tahun</option>
+                                    @for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 8; i--)
+                                    {
+                                        if (Model.tahun == i)
+                                        {
+                                            <option selected value="@i">@i</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Bulan</label>                              
+                                <select class="form-control" name="id_bulan" id="id_bulan" style="width: 100%;">
+                                    <option value="@item.id_bulan" hidden>@item.bulan </option>
+                                    @foreach (var kom in Model.bulan)
+                                    {
+                                        <option value="@kom.id_bulan"> @kom.bulan</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Jumlah Bulan Diganti</label>
+                            <select class="form-control" name="jml_bulan_diganti" style="width: 100%;">
+                                <option value="@item.jml_bulan_diganti" hidden>@item.jml_bulan_diganti </option>
+                                @for (int i = 0; i < 3; i++)
+                                {
+                                    <option value="@i"> @i</option>
+                                }
+                            </select>                           
+                        </div>
+
+                        <div class="form-group row g-3">
+                            <div class="col-md-6">
+                                <label>Tanggal Awal Cuti</label>
+                                <input type="date" class="form-control" name="tgl_awal_cuti" value="@item.tgl_awal_cuti" placeholder="Tanggal Awal Cuti">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Tanggal Akhir Cuti</label>
+                                <input type="date" class="form-control" name="tgl_akhir_cuti" value="@item.tgl_akhir_cuti" placeholder="Tanggal Akhir Cuti">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-sm w-100">
+                            Edit
+                        </button>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}
+
+@section scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#tabel').DataTable({
+                pagingType: 'simple_numbers'
+            });
+        });       
+    </script>
+    <script>
+        function gettoken() {
+            var token = '@Html.AntiForgeryToken()';
+            token = $(token).val();
+            return token;
+        }
+    </script>
+    <script>
+        $("#jml_bulan_diganti").change(function() {
+            var jml_bulan_diganti = $(this).val();
+            var future = new Date(); //get data today
+
+            if (jml_bulan_diganti == 0) {
+                var tgl = future.getFullYear() + '-' + ((future.getMonth() + 1) < 10 ? '0' : '') + (future.getMonth() + 1) + '-' + future.getDate();
+                $("#tgl_akhir_cuti").val(tgl);
+            } else if (jml_bulan_diganti == 1) {
+                future.setDate(future.getDate() + 30); //set date 1 month later
+                var tgl = future.getFullYear() + '-' + ((future.getMonth() + 1) < 10 ? '0' : '') + (future.getMonth() + 1) + '-' + future.getDate();
+                $("#tgl_akhir_cuti").val(tgl);
+            } else if (jml_bulan_diganti == 2) {
+                future.setDate(future.getDate() + 58); //set date 2 month later
+                var tgl = future.getFullYear() + '-' + ((future.getMonth() + 1) < 10 ? '0' : '') + (future.getMonth() + 1) + '-' + future.getDate();
+                $("#tgl_akhir_cuti").val(tgl);
+            }          
+        });
+    </script>
+}

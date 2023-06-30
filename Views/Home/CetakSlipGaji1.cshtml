@@ -1,0 +1,472 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Daftar Karyawan</title>
+    <style>
+        .font-univ {
+            font-family: 'Eras UAJY';
+        }
+
+        .header {
+            text-align: left;
+            font-family: Cambria;
+            border-bottom: double;
+            font-size: 20px;
+        }
+
+        .header-data {
+            text-align: left;
+            font-family: Cambria;
+            border-bottom: double;
+            font-size: 14px;
+        }
+
+        .header-cetak {
+            text-align: center;
+            font-family: Cambria;
+            border-bottom: double;
+        }
+
+        .body-sertif {
+            text-align: center;
+        }
+
+        .p-keterangan {
+            font-family: 'Segoe Print';
+            font-size: 24px;
+        }
+
+        .p-nama {
+            font-size: 40px;
+            /*font-weight: bold;*/
+            font-family: 'Tahoma';
+        }
+
+        .p-ttd {
+            font-family: 'Segoe Print';
+            font-size: 26px;
+        }
+
+        .divlogo {
+            /*display: inline-block;
+                            vertical-align: top;
+                            height: 120px;*/
+        }
+
+        .divhead {
+            text-align: center;
+            padding-top: 125px;
+        }
+
+        .divttd {
+            margin-top: 50px;
+        }
+
+        .classbody {
+            /*background-color: burlywood;*/
+        }
+
+        .divbody {
+            /* padding-top: 100px;
+                            padding-bottom: 115px;
+                            margin-left: 135px;
+                            margin-right: 135px;*/
+        }
+
+        .imgttd {
+            height: 100px;
+            float: left;
+        }
+
+        .table-logo {
+            width: 100%;
+        }
+
+        .tdlogo1 {
+            width: 50%;
+        }
+
+        .tdlogo2 {
+            width: 50%;
+        }
+
+        .imglogo {
+            height: 250px;
+        }
+
+        .div-qr {
+        }
+
+        .imgqrcode {
+            height: 100px;
+            float: left;
+        }
+
+        .pcode {
+            font-family: 'Tahoma';
+            padding-top: 5px;
+            font-size: 20px;
+            padding-right: 5px;
+            float: right;
+        }
+
+        .p-judul {
+            font-size: 26px;
+            font-family: 'Tahoma';
+        }
+
+        .p-tanggal {
+            font-family: 'Segoe Print';
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .p {
+            font-family: 'Tahoma';
+            font-size: 20px;
+        }
+
+        th, td, table {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        tbody.noBorder th, tbody.noBorder td {
+            border: 0;
+        }
+
+        .underline {
+            width: 20%;
+            height: 20%;
+            border-top: 1px solid black;
+        }
+
+        table thead .firstLine td {
+            border-bottom: 1px solid #000;
+        }
+
+        hr {
+            border-bottom: 0px;
+            border: none;
+            height: 1px;
+            width: 130px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            color: #000;
+            background-color: #000;
+            text-align: right;
+            margin-right: 0;
+        }
+
+        table tbody.ttd {
+            margin-left: 25px;
+        }
+    </style>
+</head>
+<body class="classbody">
+    <div class="header">
+        <table style="width:100%; border:none;">
+            <tbody class="noBorder">
+                <tr>
+                    <td rowspan="3" style="text-align: center;width:10%"><img src="/Assets/dist/img/uajy.png" style="float:left" alt="logo-uajy" height=100 width=80 /></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="font-size: 24px;width:40%">Rincian Gaji Karyawan</td>
+                    <td>Bulan</td>
+                    <td style="width:50%">: @Model.data.bulan</td>
+                </tr>
+                <tr>
+                    <td style="height:50px">@Model.data.tgl_cetak</td>
+                    <td>Unit</td>
+                    <td>: @Model.data.nama_unit</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+    <div class="header-data">
+        <table style="width:100%; border:none">
+            <tbody class="noBorder">
+                <tr>
+                    <td style="width:140px">NPP</td>
+                    <td style="width:200px">: @Model.data.npp</td>
+                    <td style="width:140px">Jabatan Struktural</td>
+                    <td style="width:200px">: @Model.data.jbt_struktural</td>
+                </tr>
+           
+                <tr>
+                    <td>Nama</td>
+                    <td>: @Model.data.nama</td>
+                    <td>Pangkat</td>
+                    <td>: @Model.data.pangkat</td>
+                </tr>
+                <tr>
+                    <td>Status Kepegawaian</td>
+                    <td>: @Model.data.status_kepegawaian</td>
+                    <td>Golongan</td>
+                    <td>: @Model.data.golongan</td>
+                </tr>
+                <tr>
+                    <td>Masa Kerja</td>
+                    <td>: @Model.data.masa_kerja_riil</td>
+                    <td>Nomor Tabungan</td>
+                    <td>: @Model.data.no_tabungan</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>NPWP</td>
+                    <td>: @Model.data.npwp</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Jabatan Fungsional </td>
+                    <td>: @Model.data.jbt_fungsional</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+
+    <div class="divbody">
+        @*<p>Dengan ini kami beritahukan bahwa Bagian Operasional Kantor Keuangan telah melakukan transfer honorarium, sesuai
+        penugasan kegiatan yang telah ditunaikan Bapak/Ibu/Saudara sbb:</p>*@
+        <table style="width:100%; border:none;margin-bottom:15px;margin-top:20px">
+            <tbody class="noBorder">
+                <tr>
+                    <th colspan="3" style="text-align:left;">KOMPONEN GAJI</th>
+                </tr>
+                @foreach (var item in Model.dataGaji)
+                {
+                    <tr>
+                        <td style="width:10%"></td>
+                        <td style="text-align:left;width:40%">@item.komponen_gaji</td>
+                        <td style="width:100px">@item.jumlah_satuan</td>
+                        <td style="text-align:right;width:20%">@item.nominal</td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right"><strong><hr />Penerimaan Kotor</strong></td>
+                    <td style="text-align:right;width:15%">@Model.dataPajakPenghasilan.penerimaan_kotor </td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="width:100%; border:none;margin-bottom:15px;margin-top:20px">
+            <tbody class="noBorder">
+                <tr>
+                    <th colspan="3" style="text-align:left;">KOMPONEN POTONGAN</th>
+                </tr>
+                @foreach (var item in Model.dataGajiKP)
+                {
+                    <tr>
+                        <td style="width:10%"></td>
+                        <td style="text-align:left;width:40%">@item.komponen_gaji</td>
+                        <td style="width:100px"></td>
+                        <td style="text-align:right;width:20%">@item.nominal</td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right"><hr style="border-top:1px;margin-top:-13px;" /></td>
+                    <td style="text-align:right;width:15%">@Model.dataPajakPenghasilan.total_potongan<hr /> </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right"><strong>Penerimaan Bersih</strong></td>
+                    <td style="text-align:right;width:15%">@Model.dataPajakPenghasilan.penerimaan_bersih<hr /><hr /> </td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="width:100%; border:none;margin-bottom:15px;margin-top:20px">
+            <tbody class="noBorder">
+                <tr>
+                    <th colspan="3" style="text-align:left;">
+                        PERHITUNGAN PAJAK PENGHASILAN
+                    </th>
+                </tr>
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="text-align:left;width:40%"><strong><u>Penghasilan</u></strong></td>
+                    <td style="width:100px"></td>
+                    <td style="text-align:right;width:20%"></td>
+                </tr>
+
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="text-align:left;width:40%">Penerimaan Gaji Kotor</td>
+                    <td style="width:100px"></td>
+                    <td style="text-align:right;width:20%">@Model.dataPajakPenghasilan.penerimaan_kotor</td>
+                </tr>
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="text-align:left;width:40%">Honorarium tanggal 5 dan dop</td>
+                    <td style="width:100px"></td>
+                    <td style="text-align:right;width:20%">@Model.dataPajakPenghasilan.honor_dop</td>
+                </tr>
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="text-align:left;width:40%"><strong><u>Premi YSR</u></strong></td>
+                    <td style="width:100px"></td>
+                    <td style="text-align:right;width:20%"></td>
+                </tr>
+
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="text-align:left;width:40%">BPJS Ketenagakerjaan</td>
+                    <td style="width:100px"></td>
+                    <td style="text-align:right;width:20%">@Model.dataPajakPenghasilan.premi_astek</td>
+                </tr>
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="text-align:left;width:40%">BPJS Kesehatan</td>
+                    <td style="width:100px"></td>
+                    <td style="text-align:right;width:20%">@Model.dataPajakPenghasilan.premi_bpjs_kesehatan</td>
+                </tr>
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="text-align:left;width:40%">Asuransi Avrist</td>
+                    <td style="width:100px"></td>
+                    <td style="text-align:right;width:20%">@Model.dataPajakPenghasilan.avrist<hr /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right">@*<hr style="border-top:1px;margin-top:-13px;"/>*@</td>
+                    <td style="text-align:right;width:15%">@Model.dataPajakPenghasilan.total_penghasilan</td>
+                </tr>
+
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="text-align:left;width:40%"><strong><u>Pengurangan</u></strong></td>
+                    <td style="width:100px"></td>
+                    <td style="text-align:right;width:20%"></td>
+                </tr>
+
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="text-align:left;width:40%">Biaya Jabatan</td>
+                    <td style="width:100px"></td>
+                    <td style="text-align:right;width:20%">@Model.dataPajakPenghasilan.biaya_jabatan</td>
+                </tr>
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="text-align:left;width:40%">Biaya Yadapen</td>
+                    <td style="width:100px"></td>
+                    <td style="text-align:right;width:20%">@Model.dataPajakPenghasilan.biaya_yadapen</td>
+                </tr>
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="text-align:left;width:40%">BPJS Ketenagakerjaan</td>
+                    <td style="width:100px"></td>
+                    <td style="text-align:right;width:20%">@Model.dataPajakPenghasilan.bpjs_ketenagakerjaan</td>
+                </tr>
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="text-align:left;width:40%">Biaya Kesehatan</td>
+                    <td style="width:100px"></td>
+                    <td style="text-align:right;width:20%">@Model.dataPajakPenghasilan.bpjs_kesehatan</td>
+                </tr>
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="text-align:left;width:40%">Pendapatan Tidak Kena Pajak</td>
+                    <td style="width:100px"></td>
+                    <td style="text-align:right;width:20%">@Model.dataPajakPenghasilan.pdp_tidak_kena_pajak<hr /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right">@*<hr style="border-top:1px;margin-top:-13px;"/>*@</td>
+                    <td style="text-align:right;width:15%">@Model.dataPajakPenghasilan.total_pengurangan<hr /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Pendapatan Kena Pajak</td>
+                    <td></td>
+                    <td style="text-align:right">@*<hr style="border-top:1px;margin-top:-13px;"/>*@</td>
+                    <td style="text-align:right;width:15%">@Model.dataPajakPenghasilan.pdp_kena_pajak<hr /> <hr /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Pajak yang seharusnya</td>
+                    <td></td>
+                    <td style="text-align:right">@*<hr style="border-top:1px;margin-top:-13px;"/>*@</td>
+                    <td style="text-align:right;width:15%">@Model.dataPajakPenghasilan.pajak_seharusnya</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Pajak yang telah dipotong</td>
+                    <td></td>
+                    <td style="text-align:right">@*<hr style="border-top:1px;margin-top:-13px;"/>*@</td>
+                    <td style="text-align:right;width:15%">@Model.dataPajakPenghasilan.pajak_potong<hr /> <hr /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Penyesuaian Pajak</td>
+                    <td></td>
+                    <td style="text-align:right">@*<hr style="border-top:1px;margin-top:-13px;"/>*@</td>
+                    <td style="text-align:right;width:15%">@Model.dataPajakPenghasilan.penyesuaian_pajak<hr /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table style="width:100%; border:none;margin-bottom:15px;">
+            <tbody class="noBorder ttd">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:left">@Model.data2.nama_unit</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:left"> Kepala,</td>
+
+                </tr>
+                <tr>
+                    <td style="margin-left:20px">Catatan:<p style="margin:0px;font:italic">-Mohon dikoreksi</p></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    @{
+                        string base64 = Convert.ToBase64String(Model.data2.ttd);
+                        var ttd = String.Format("data:image/jpeg;base64,{0}", base64);
+                    }
+                    <td style="text-align:left"><img src="@ttd" style="filter:grayscale(100%)" /></td>
+                </tr>
+                <tr>
+                    <td style="width:20%"></td>
+                    <td style="width:20%"></td>
+                    <td style="width:15%"></td>
+                    <td style="width:15%"></td>
+                    <td style="text-align:left;width:30%;" class="ttd">@Model.data2.nama</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</body>
+</html>

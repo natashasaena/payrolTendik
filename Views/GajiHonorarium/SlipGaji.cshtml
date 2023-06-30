@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Slip Gaji";
+}
+
+
+<div class="pt-4">
+    <div class="card card-light">
+        <div class="card-header ">
+            <div class="d-flex align-items-left justify-content-between mb-0">
+                <h5 class="mb-0 font-weight-bold">Slip Gaji</h5>
+                @*<a href="" class="text-primary">Download Format File</a>*@
+            </div>
+        </div>
+
+        <form asp-controller="GajiHonorarium" asp-action="CetakSlipGajiKaryawan">
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Tahun</label>
+                    <select class="form-control" name="id_tahun" id="id_tahun" style="width: 100%;" onclick="run()">
+                        <option value="">-- Pilih Tahun --</option>
+                        @for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 8; i--)
+                        {
+                            if (Model.tahun == i)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Bulan</label>
+                    <select class="form-control" name="id_bulan" id="id_bulan" style="width: 100%;" onclick="run()">
+                        <option value="">-- Pilih Bulan --</option>
+                        @foreach (var kom in Model.bulan)
+                        {
+                            <option value="@kom.id_bulan"> @kom.bulan</option>
+                        }
+                    </select>
+                </div>               
+            </div>
+
+            <div class="card-footer text-center">
+                <button class="btn btn-primary mr-2 mt-1" type="submit">Cetak</button>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

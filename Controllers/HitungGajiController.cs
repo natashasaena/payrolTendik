@@ -9,7 +9,7 @@ namespace payrolTendik.Controllers
     public class HitungGajiController : Controller
     {
         HomeDAO dao;
-        HitungGajiDAO dao1;
+       
         GeneralDAO daoGeneral;
         public HitungGajiController()
         {

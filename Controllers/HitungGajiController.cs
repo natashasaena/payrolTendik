@@ -8,8 +8,7 @@ namespace payrolTendik.Controllers
     [Authorize(Roles ="KSDM")]
     public class HitungGajiController : Controller
     {
-        HomeDAO dao;
-       
+        HomeDAO dao;       
         GeneralDAO daoGeneral;
         public HitungGajiController()
         {

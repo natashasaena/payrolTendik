@@ -29,7 +29,7 @@
         public int id { get; set; }
         public string npp { get; set; }
         public string nama { get; set; }
-        public float jumlah { get; set; }
+        public string jumlah { get; set; }
     }
     
 }

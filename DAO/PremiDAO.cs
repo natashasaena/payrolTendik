@@ -193,7 +193,7 @@ namespace payrolTendik.DAO
             {
                 try
                 {
-                    string query = @"SELECT ROW_NUMBER() OVER(ORDER BY a.NPP ASC) AS ID,a.[NPP],NAMA_LENGKAP_GELAR AS NAMA,[AVRIST] AS JUMLAH 
+                    string query = @"SELECT ROW_NUMBER() OVER(ORDER BY a.NPP ASC) AS ID,a.[NPP],NAMA_LENGKAP_GELAR AS NAMA,FORMAT(AVRIST, 'c2', 'id-ID') AS JUMLAH 
                                     FROM [PAYROLL].[payroll].[TBL_AVRIST] a LEFT JOIN [simka].[MST_KARYAWAN] b ON a.NPP = b.NPP";
 
                     var data = conn.Query<AvristModel>(query).AsList();

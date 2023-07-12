@@ -30,9 +30,7 @@ namespace payrolTendik.Controllers
         {
             dynamic objek = new ExpandoObject();
             string halaman = "CetakSlipGaji";
-            //int id_tahun = 2022;
-            //int id_bulan = 11;
-            //npp = "05.89.306";
+            
             npp = User.Claims
             .Where(c => c.Type == "username")
             .Select(c => c.Value).SingleOrDefault();
@@ -79,11 +77,8 @@ namespace payrolTendik.Controllers
         {
 
             dynamic objek = new ExpandoObject();
-
             string halaman = "CetakHonorarium";
-            //int id_tahun = 2022;
-            //int id_bulan = 11;
-            //npp = "05.89.306";
+           
             npp = User.Claims
             .Where(c => c.Type == "username")
             .Select(c => c.Value).SingleOrDefault();

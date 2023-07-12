@@ -245,7 +245,9 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#tabel').DataTable({
-                pagingType: 'simple_numbers'
+                pagingType: 'simple_numbers',
+                'lengthMenu': [[5, 25, 50, -1], [5, 25, 50, "All"]],
+                'iDisplayLength': -1
             });
         });       
     </script>

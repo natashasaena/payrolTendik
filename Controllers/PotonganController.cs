@@ -115,13 +115,13 @@ namespace payrolTendik.Controllers
             if (batchUsers == null || batchUsers.Length <= 0)
             {
                 TempData["error"] = "Silahkan Upload File";
-                return RedirectToAction("PotonganVariabel");
+                return RedirectToAction("PotonganTetap");
             }
 
             if (!Path.GetExtension(batchUsers.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
             {
                 TempData["error"] = "File Harus berbentuk Xlsx";
-                return RedirectToAction("PotonganVariabel");
+                return RedirectToAction("PotonganTetap");
             }
 
             List<PotonganModel> lists = new List<PotonganModel>();
@@ -173,7 +173,7 @@ namespace payrolTendik.Controllers
                     }
 
                 }
-                return RedirectToAction("PotonganVariabel");
+                return RedirectToAction("PotonganTetap");
             }
         }
         public JsonResult cariPotongan(int id_tahun, int id_bulan, int id_unit, int id_komponen_gaji, int id_fungsional)

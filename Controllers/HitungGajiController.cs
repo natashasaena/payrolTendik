@@ -19,7 +19,11 @@ namespace payrolTendik.Controllers
         {
             return View();
         }
-
+        public JsonResult cariGaji(int id_tahun, int id_bulan, int id_unit)
+        {
+            var data = dao.getDataGajiUnit(id_tahun, id_bulan, id_unit);
+            return Json(data);
+        }
         //Fungsi Hitung Gaji
         public JsonResult insertGaji(int id_tahun, int id_bulan, int id_unit, int id_tunj)
         {
